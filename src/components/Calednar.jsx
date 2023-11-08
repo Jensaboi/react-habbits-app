@@ -1,67 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MonthlyCalendar from "./MonthlyCalendar.jsx";
-import CalendarHeader from "./CalendarHeader.jsx";
 import WeeklyCalendar from "./WeeklyCalendar.jsx";
+import { getMonthYear } from "../service/monthly.service.js";
 
 export default function Calendar({ habitsData }) {
-  const [clickedDay, setClickedDay] = useState(null);
-  const [monthNav, setMonthNav] = useState(0);
-  const [monthCalendar, setMonthCalendar] = useState(true);
-  const [weekNav, setWeekNav] = useState(0);
+    const [clickedDay, setClickedDay] = useState(
+        new Date().toISOString().split("T")[0]
+    );
+    const [monthCalendar, setMonthCalendar] = useState(true);
+    const [weekNav, setWeekNav] = useState(0);
+    const [monthNav, setMonthNav] = useState(0);
+    const [displayMonthYear, setDisplayMonthYear] = useState(
+        getMonthYear(
+            new Date().getFullYear(),
+            new Date().getMonth() + monthNav,
+            new Date().getDate()
+        )
+    );
 
-  function handleMonthCalendar() {
-    setMonthCalendar((prevState) => !prevState);
-  }
-  //month
-  function handleIncrementMonthNav() {
-    setMonthNav((prevState) => prevState + 1);
-  }
+    function onSetWeekNav(num) {
+        setWeekNav((prevState) => prevState + num);
+    }
 
-  function handleDecrementMonthNav() {
-    setMonthNav((prevState) => prevState - 1);
-  }
-  //week
-  function handleIncrementWeekNav() {
-    setWeekNav((prevState) => prevState + 1);
-  }
+    function onSetMonthNav(num) {
+        setMonthNav((prevState) => prevState + num);
+    }
 
-  function handleDecrementWeekNav() {
-    setWeekNav((prevState) => prevState - 1);
-  }
-  //clicked day
-  function handleCLickedDay(date) {
-    setClickedDay(date);
-    console.log(date)
-  }
-  return (
-    <div>
-      <div>
-        <button onClick={handleMonthCalendar}>
-          Change to {monthCalendar ? "Weekly view" : "Monthly view"}
-        </button>
-      </div>
-      <CalendarHeader
-        isMonthCalendar={monthCalendar}
-        decrementMonthNav={handleDecrementMonthNav}
-        incrementMonthNav={handleIncrementMonthNav}
-        inCrementWeekNav={handleIncrementWeekNav}
-        decrementWeekNav={handleDecrementWeekNav}
-      />
-      {monthCalendar ? (
-        <MonthlyCalendar
-          nav={monthNav}
-          habitsData={habitsData}
-          clickedDay={clickedDay}
-          onClickedDay={handleCLickedDay}
-        />
-      ) : (
-        <WeeklyCalendar
-          nav={weekNav}
-          habitsData={habitsData}
-          clickedDay={clickedDay}
-          onClickedDay={handleCLickedDay}
-        />
-      )}
-    </div>
-  );
+    function handleMonthCalendar() {
+        setMonthCalendar((prevState) => !prevState);
+    }
+
+    function handleCLickedDay(date) {
+        setClickedDay(date);
+        console.log(date);
+    }
+
+    return (
+        <div>
+            <div>
+                <button onClick={handleMonthCalendar}>
+                    Change to {monthCalendar ? "Weekly view" : "Monthly view"}
+                </button>
+            </div>
+            <div className="calendar-header-container">
+                <div>
+                    <button
+                        onClick={
+                            monthCalendar
+                                ? () => {
+                                      onSetMonthNav(-1);
+                                  }
+                                : () => {
+                                      onSetWeekNav(-1);
+                                  }
+                        }>
+                        Back
+                    </button>
+                    <button
+                        onClick={
+                            monthCalendar
+                                ? () => {
+                                      onSetMonthNav(1);
+                                  }
+                                : () => {
+                                      onSetWeekNav(1);
+                                  }
+                        }>
+                        Next
+                    </button>
+                </div>
+                <h3>{displayMonthYear}</h3>
+            </div>
+            {monthCalendar ? (
+                <MonthlyCalendar
+                    nav={monthNav}
+                    habitsData={habitsData}
+                    clickedDay={clickedDay}
+                    onClickedDay={handleCLickedDay}
+                />
+            ) : (
+                <WeeklyCalendar
+                    nav={weekNav}
+                    habitsData={habitsData}
+                    clickedDay={clickedDay}
+                    onClickedDay={handleCLickedDay}
+                />
+            )}
+        </div>
+    );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DAY_NAMES } from "../data/data.js";
-import { getPaddingDays } from "../service/monthly.service.js";
+import { getPaddingDays, getMonthYear } from "../service/monthly.service.js";
 
 export default function MonthlyCalendar({
     nav,
@@ -9,7 +9,6 @@ export default function MonthlyCalendar({
     onClickedDay,
 }) {
     const [dates, setDates] = useState([]);
-    const [monthYear, setMonthYear] = useState(null);
 
     useEffect(() => {
         let dt = new Date();
@@ -80,8 +79,7 @@ export default function MonthlyCalendar({
                                     : date.isPaddingDay
                                     ? "none"
                                     : "1px solid black",
-                        }}
-                    >
+                        }}>
                         {date.value}
                     </div>
                 );

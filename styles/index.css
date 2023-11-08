@@ -1,18 +1,21 @@
-.calendar-container{
-  display: grid;
-  grid-template-columns: repeat(7,1fr);
-  justify-items: center;
-  align-content: center;
-  gap: 5px;
+.calendar-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+    align-content: center;
+    gap: 5px;
 }
-.monthly--date-container{
-  border-radius: 6px;
-  padding: 3px;
-  cursor: pointer;
+.monthly--date-container {
+    border-radius: 6px;
+    padding: 3px;
+    cursor: pointer;
 }
 
-.calendar-header-container{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.calendar-header-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.calendar-nav-btns {
+    cursor: pointer;
 }
