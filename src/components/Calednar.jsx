@@ -31,7 +31,7 @@ export default function Calendar({ habitsData }) {
                 monthCalendar={monthCalendar} 
                 onSetMonthCalendar={handleMonthCalendar} 
                 displayMonthYear={displayMonthYear}
-                onClickedDay={handleCLickedDay}
+                onClickedDay={setClickedDay}
                 clickedDay={clickedDay}
             />
             {monthCalendar ? (
