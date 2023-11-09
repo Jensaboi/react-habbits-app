@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from "react";
 import MonthlyCalendar from "./MonthlyCalendar.jsx";
 import WeeklyCalendar from "./WeeklyCalendar.jsx";
+import CalendarHeader from "./CalendarHeader.jsx";
 import { getMonthYear } from "../service/monthly.service.js";
 
+
 export default function Calendar({ habitsData }) {
+    const CURRENT_DATE = new Date()
+    const CURRENT_DATE_YYMMDD = CURRENT_DATE.toISOString().split("T")[0]
     const [clickedDay, setClickedDay] = useState(
-        new Date().toISOString().split("T")[0]
+        CURRENT_DATE.toISOString().split("T")[0]
     );
     const [monthCalendar, setMonthCalendar] = useState(true);
-    const [weekNav, setWeekNav] = useState(0);
-    const [monthNav, setMonthNav] = useState(0);
     const [displayMonthYear, setDisplayMonthYear] = useState(
-        getMonthYear(
-            new Date().getFullYear(),
-            new Date().getMonth() + monthNav,
-            new Date().getDate()
-        )
+        getMonthYear(new Date(clickedDay).getFullYear(), new Date(clickedDay).getMonth(),1)
     );
-
-    function onSetWeekNav(num) {
-        setWeekNav((prevState) => prevState + num);
-    }
-
-    function onSetMonthNav(num) {
-        setMonthNav((prevState) => prevState + num);
-    }
 
     function handleMonthCalendar() {
         setMonthCalendar((prevState) => !prevState);
@@ -37,50 +27,23 @@ export default function Calendar({ habitsData }) {
 
     return (
         <div>
-            <div>
-                <button onClick={handleMonthCalendar}>
-                    Change to {monthCalendar ? "Weekly view" : "Monthly view"}
-                </button>
-            </div>
-            <div className="calendar-header-container">
-                <div>
-                    <button
-                        onClick={
-                            monthCalendar
-                                ? () => {
-                                      onSetMonthNav(-1);
-                                  }
-                                : () => {
-                                      onSetWeekNav(-1);
-                                  }
-                        }>
-                        Back
-                    </button>
-                    <button
-                        onClick={
-                            monthCalendar
-                                ? () => {
-                                      onSetMonthNav(1);
-                                  }
-                                : () => {
-                                      onSetWeekNav(1);
-                                  }
-                        }>
-                        Next
-                    </button>
-                </div>
-                <h3>{displayMonthYear}</h3>
-            </div>
+            <CalendarHeader 
+                monthCalendar={monthCalendar} 
+                onSetMonthCalendar={handleMonthCalendar} 
+                displayMonthYear={displayMonthYear}
+                onClickedDay={handleCLickedDay}
+                clickedDay={clickedDay}
+            />
             {monthCalendar ? (
                 <MonthlyCalendar
-                    nav={monthNav}
+                    currentDate={CURRENT_DATE_YYMMDD}
                     habitsData={habitsData}
                     clickedDay={clickedDay}
                     onClickedDay={handleCLickedDay}
                 />
             ) : (
                 <WeeklyCalendar
-                    nav={weekNav}
+                    currentDate={CURRENT_DATE_YYMMDD}
                     habitsData={habitsData}
                     clickedDay={clickedDay}
                     onClickedDay={handleCLickedDay}

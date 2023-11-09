@@ -3,19 +3,15 @@ import { DAY_NAMES } from "../data/data.js";
 import { getPaddingDays, getMonthYear } from "../service/monthly.service.js";
 
 export default function MonthlyCalendar({
-    nav,
     habitsData,
     clickedDay,
     onClickedDay,
+    currentDate
 }) {
     const [dates, setDates] = useState([]);
 
     useEffect(() => {
-        let dt = new Date();
-
-        if (nav !== 0) {
-            dt.setMonth(new Date().getMonth() + nav);
-        }
+        let dt = new Date(clickedDay);
 
         let date = dt.getDate();
         let year = dt.getFullYear();
@@ -41,49 +37,52 @@ export default function MonthlyCalendar({
                 daysArray.push({
                     date: dateString,
                     value: dateString.split("-")[2],
-                    isCurrentDate: i - paddingDays === date && nav === 0,
+                    isCurrentDate: dateString === currentDate,
                     isPaddingDay: false,
                     isClickedDay: dateString === clickedDay,
                 });
             }
         }
         setDates(daysArray);
-    }, [nav, clickedDay, habitsData]);
+    }, [clickedDay, habitsData]);
 
     return (
-        <div className="calendar-container">
-            {DAY_NAMES.map((name) => (
-                <p className="calendar--weekday-names" key={name}>
-                    {name}
-                </p>
-            ))}
-            {dates.map((date, index) => {
-                return (
-                    <div
-                        key={index}
-                        className="monthly--date-container"
-                        onClick={
-                            !date.isPaddingDay
-                                ? () => {
-                                      onClickedDay(date.date);
-                                  }
-                                : null
-                        }
-                        style={{
-                            backgroundColor: date.isCurrentDate
-                                ? "green"
-                                : "white",
-                            border:
-                                date.isClickedDay && !date.isPaddingDay
-                                    ? "1px solid red"
-                                    : date.isPaddingDay
-                                    ? "none"
-                                    : "1px solid black",
-                        }}>
-                        {date.value}
-                    </div>
-                );
-            })}
-        </div>
+        <>
+            <div className="calendar-container">
+                {DAY_NAMES.map((name) => (
+                    <p className="calendar--weekday-names" key={name}>
+                        {name}
+                    </p>
+                ))}
+                {dates.map((date, index) => {
+                    return (
+                        <div
+                            key={index}
+                            className="monthly--date-container"
+                            onClick={
+                                !date.isPaddingDay
+                                    ? () => {
+                                          onClickedDay(date.date);
+                                      }
+                                    : null
+                            }
+                            style={{
+                                backgroundColor: date.isCurrentDate
+                                    ? "green"
+                                    : "white",
+                                border:
+                                    date.isClickedDay && !date.isPaddingDay
+                                        ? "1px solid red"
+                                        : date.isPaddingDay
+                                        ? "none"
+                                        : "1px solid black",
+                            }}
+                        >
+                            {date.value}
+                        </div>
+                    );
+                })}
+            </div>
+        </>
     );
 }

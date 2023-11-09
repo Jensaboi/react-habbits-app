@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { DAY_NAMES } from "../data/data.js";
 
 export default function WeeklyCalendar({
-    nav,
     habitsData,
     clickedDay,
     onClickedDay,
+    currentDate
 }) {
-    const [days, setDays] = useState([]);
+    const [dates, setDates] = useState([]);
 
     useEffect(() => {
-        let dt = new Date();
-
-        if (nav !== 0) {
-            dt.setDate(new Date().getDate() + nav * 7);
-        }
+        let dt = new Date(clickedDay);
 
         let year = dt.getFullYear();
         let month = dt.getMonth();
@@ -31,13 +27,14 @@ export default function WeeklyCalendar({
             datesArray.push({
                 date: dateString,
                 value: dateString.split("-")[2],
-                isCurrentDate: monday + i === date && nav === 0,
+                isCurrentDate: dateString === currentDate,
                 isClickedDay: dateString === clickedDay,
             });
         }
 
-        setDays(datesArray);
-    }, [nav]);
+        setDates(datesArray);
+    }, [clickedDay]);
+    
     return (
         <div className="calendar-container">
             {DAY_NAMES.map((name) => (
@@ -45,7 +42,7 @@ export default function WeeklyCalendar({
                     {name}
                 </p>
             ))}
-            {days.map((day, index) => {
+            {dates.map((day, index) => {
                 return (
                     <div
                         key={index}

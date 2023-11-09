@@ -19,3 +19,10 @@
 .calendar-nav-btns {
     cursor: pointer;
 }
+.calendar--header-btn-container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.3em;
+}
+
