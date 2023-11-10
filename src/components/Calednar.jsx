@@ -4,16 +4,19 @@ import WeeklyCalendar from "./WeeklyCalendar.jsx";
 import CalendarHeader from "./CalendarHeader.jsx";
 import { getMonthYear } from "../service/monthly.service.js";
 
-
 export default function Calendar({ habitsData }) {
-    const CURRENT_DATE = new Date()
-    const CURRENT_DATE_YYMMDD = CURRENT_DATE.toISOString().split("T")[0]
+    const CURRENT_DATE = new Date();
+    const CURRENT_DATE_YYMMDD = CURRENT_DATE.toISOString().split("T")[0];
     const [clickedDay, setClickedDay] = useState(
         CURRENT_DATE.toISOString().split("T")[0]
     );
     const [monthCalendar, setMonthCalendar] = useState(true);
     const [displayMonthYear, setDisplayMonthYear] = useState(
-        getMonthYear(new Date(clickedDay).getFullYear(), new Date(clickedDay).getMonth(),1)
+        getMonthYear(
+            new Date(clickedDay).getFullYear(),
+            new Date(clickedDay).getMonth(),
+            1
+        )
     );
 
     function handleMonthCalendar() {
@@ -25,14 +28,26 @@ export default function Calendar({ habitsData }) {
         console.log(date);
     }
 
+    useEffect(() => {
+        setDisplayMonthYear(
+            getMonthYear(
+                new Date(clickedDay).getFullYear(),
+                new Date(clickedDay).getMonth(),
+                1
+            )
+        );
+    }, [clickedDay]);
+
     return (
-        <div>
-            <CalendarHeader 
-                monthCalendar={monthCalendar} 
-                onSetMonthCalendar={handleMonthCalendar} 
+        <div className="calendar--container">
+            <CalendarHeader
+                monthCalendar={monthCalendar}
+                onSetMonthCalendar={handleMonthCalendar}
                 displayMonthYear={displayMonthYear}
                 onClickedDay={setClickedDay}
                 clickedDay={clickedDay}
+                currentDate={CURRENT_DATE}
+                currentDateStr={CURRENT_DATE_YYMMDD}
             />
             {monthCalendar ? (
                 <MonthlyCalendar
