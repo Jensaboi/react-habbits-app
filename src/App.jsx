@@ -1,14 +1,15 @@
 import { useState } from "react";
 import Calendar from "./components/Calednar.jsx";
 import Navbar from "./components/Navbar.jsx";
+import AddHabbitModal from "./components/AddHabbitModal.jsx";
 
 function App() {
-    const [count, setCount] = useState(0);
 
     return (
         <>
             <Navbar />
             <Calendar />
+            <AddHabbitModal />
         </>
     );
 }

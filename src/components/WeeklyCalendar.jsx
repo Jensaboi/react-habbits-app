@@ -16,7 +16,11 @@ export default function WeeklyCalendar({
         let month = dt.getMonth();
         let date = dt.getDate();
         let dayName = dt.getDay();
+        if(dayName === 0){
+            dayName = 7;
+        }
         let monday = date - dayName + 1;
+
 
         let datesArray = [];
         for (let i = 0; i < 7; i++) {
@@ -52,8 +56,8 @@ export default function WeeklyCalendar({
                         }}
                         style={{
                             backgroundColor: day.isCurrentDate
-                                ? "green"
-                                : "white",
+                                ? "lightblue"
+                                : "transparent",
                             border: day.isClickedDay
                                 ? "1px solid red"
                                 : "1px solid black",

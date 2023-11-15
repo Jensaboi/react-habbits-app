@@ -68,7 +68,7 @@ export default function MonthlyCalendar({
                             }
                             style={{
                                 backgroundColor: date.isCurrentDate
-                                    ? "green"
+                                    ? "lightblue"
                                     : "white",
                                 border:
                                     date.isClickedDay && !date.isPaddingDay
