@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Calendar from "./components/Calednar.jsx";
 import Navbar from "./components/Navbar.jsx";
-import AddHabbitModal from "./components/AddHabbitModal.jsx";
+import CreateHabbitModal from "./components/CreateHabbitModal.jsx";
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
         <>
             <Navbar />
             <Calendar />
-            <AddHabbitModal />
+            <CreateHabbitModal />
         </>
     );
 }
