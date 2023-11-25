@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 export default function CreateHabbitModal(){
     const [ formData, setFormData ] = useState(
         {
-            startDate: new Date().toISOString().split("T")[0],
+            startDate: "",
             endDate: "",
             days: "",
             title: "",
